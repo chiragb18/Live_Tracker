@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🛰️ HyperTrack: Admin-First Fleet Tracking Console & Client Dashboard
 
 HyperTrack is a premium, high-performance, real-time live location tracking web application designed with a futuristic dark dashboard theme, interactive map telemetry, and glowing radar pings. It is completely serverless, utilizing a free **Firebase Realtime Database** for instant syncing and **Leaflet.js** + **OpenStreetMap (via CartoDB)** for beautiful, responsive mapping controls with **zero paid services** or API limits.
@@ -109,3 +110,7 @@ Ensure your rules under the **Rules** tab look exactly like this:
 2. Click the **Firebase Setup** button (represented by a gear/setting button in the dashboard).
 3. Paste your copied `Project ID`, `API Key`, and `Database URL` into the form fields, then click **Save Credentials**.
 4. Close the drawer. Your Admin Console is now connected to the real Firebase database cloud! Share generated links to track devices anywhere in the world!
+=======
+# Live_Tracker
+Tracks the location
+>>>>>>> 3a7db16e8bce3880240f599e64062740a878b1c2
