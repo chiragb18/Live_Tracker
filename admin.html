@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Live Location Tracker - Admin Console</title>
-  
+
   <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
   <!-- Custom Sleek Stylesheet -->
   <link rel="stylesheet" href="styles.css">
-  
+
   <style>
     /* Fleet List Sidebar Styling */
     .fleet-section {
@@ -19,7 +21,7 @@
       gap: 10px;
       margin-bottom: 20px;
     }
-    
+
     .fleet-header-row {
       display: flex;
       justify-content: space-between;
@@ -128,16 +130,18 @@
     }
   </style>
 </head>
+
 <body>
 
   <div class="app-container">
-    
+
     <!-- Sidebar Control Panel -->
     <aside class="dashboard-sidebar">
-      
+
       <!-- Logo Header -->
       <header class="dashboard-header">
-        <div class="logo-icon" style="background: rgba(0, 242, 254, 0.1); color: var(--accent-cyan); box-shadow: 0 0 15px rgba(0, 242, 254, 0.2);">
+        <div class="logo-icon"
+          style="background: rgba(0, 242, 254, 0.1); color: var(--accent-cyan); box-shadow: 0 0 15px rgba(0, 242, 254, 0.2);">
           <svg viewBox="0 0 24 24">
             <path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z" />
             <circle cx="12" cy="10" r="3" fill="#080b11" />
@@ -153,11 +157,14 @@
       <!-- ⚡ Track Link Generator -->
       <div class="session-panel">
         <h2 class="panel-title">Track Link Generator</h2>
+        <div id="demo-warning-banner" class="glass" style="display: none; padding: 10px; margin-bottom: 12px; border: 1px solid var(--accent-orange); border-radius: 8px; font-size: 11px; color: var(--accent-orange); line-height: 1.4; background: rgba(255,159,67,0.05);">
+          ⚠️ <strong>Offline Demo Active</strong>: Trackers will not sync across different devices (e.g. PC to phone) in Demo mode. Setup Firebase credentials below to track real devices!
+        </div>
         <div class="generator-card">
           <button id="btn-generate-link" class="btn btn-accent" style="padding: 12px; font-size: 13px;">
             ⚡ Generate Tracker Link
           </button>
-          
+
           <div id="link-box-wrapper" class="generated-link-box" style="display: none;">
             <input id="generated-link" class="generated-link-input" type="text" readonly>
             <button id="btn-copy-link" class="btn-link-copy" title="Copy Link">
@@ -174,9 +181,11 @@
       <div class="session-panel">
         <div class="fleet-header-row">
           <h2 class="panel-title" style="margin: 0;">Active Fleet</h2>
-          <span id="fleet-count" class="session-id-val" style="font-size: 10px; padding: 2px 6px; border-radius: 20px; background: rgba(255,255,255,0.04);">0 Active</span>
+          <span id="fleet-count" class="session-id-val"
+            style="font-size: 10px; padding: 2px 6px; border-radius: 20px; background: rgba(255,255,255,0.04);">0
+            Active</span>
         </div>
-        
+
         <div id="fleet-list-container" class="fleet-list">
           <div style="font-size: 11px; color: var(--text-muted); text-align: center; padding: 20px 0;">
             No generated trackers active. Use the generator above to invite someone!
@@ -187,7 +196,7 @@
       <!-- 📊 Selected Device Statistics -->
       <div id="telemetry-panel" class="session-panel" style="display: none;">
         <h2 class="panel-title" id="selected-device-title">Real-Time Telemetry</h2>
-        
+
         <div class="stat-grid" style="margin-bottom: 14px;">
           <div class="stat-card glass">
             <span class="stat-label">LATITUDE</span>
@@ -216,11 +225,14 @@
         <div class="session-display-card glass" style="padding: 10px; margin: 0; background: rgba(0,0,0,0.15);">
           <div class="session-id-row" style="margin-bottom: 4px;">
             <span class="session-id-label" style="font-size: 9px;">LOCK QUALITY</span>
-            <span id="viewer-lock-type" style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: var(--accent-orange);">FALLBACK (IP)</span>
+            <span id="viewer-lock-type"
+              style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: var(--accent-orange);">FALLBACK
+              (IP)</span>
           </div>
           <div class="session-id-row">
             <span class="session-id-label" style="font-size: 9px;">LAST PING</span>
-            <span id="viewer-last-updated" style="font-family: var(--font-mono); font-size: 10px; color: var(--text-secondary);">--:--:--</span>
+            <span id="viewer-last-updated"
+              style="font-family: var(--font-mono); font-size: 10px; color: var(--text-secondary);">--:--:--</span>
           </div>
         </div>
       </div>
@@ -234,7 +246,7 @@
             <span class="slider"></span>
           </label>
         </div>
-        
+
         <div class="control-switch-group">
           <span class="switch-label" style="font-size: 11px;">Draw Movement Trail</span>
           <label class="switch">
@@ -243,16 +255,19 @@
           </label>
         </div>
 
-        <button id="btn-recenter-map" class="btn btn-secondary" style="width: 100%; padding: 10px; margin-top: 6px; font-size: 11px;">
+        <button id="btn-recenter-map" class="btn btn-secondary"
+          style="width: 100%; padding: 10px; margin-top: 6px; font-size: 11px;">
           Center Camera
         </button>
       </div>
 
       <!-- Firebase drawer settings activator -->
       <button id="btn-open-settings" class="btn btn-secondary" style="margin-top: 10px;">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="margin-right: 6px; vertical-align: middle;">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+          style="margin-right: 6px; vertical-align: middle;">
           <circle cx="12" cy="12" r="3" />
-          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+          <path
+            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
         </svg>
         Firebase Setup
       </button>
@@ -284,22 +299,24 @@
         <label class="form-label" for="fb-project-id">Firebase Project ID *</label>
         <input class="form-input" id="fb-project-id" type="text" placeholder="my-location-tracker-123" required>
       </div>
-      
+
       <div class="form-group">
         <label class="form-label" for="fb-api-key">API Key *</label>
         <input class="form-input" id="fb-api-key" type="password" placeholder="AIzaSyA1..." required>
       </div>
-      
+
       <div class="form-group">
         <label class="form-label" for="fb-db-url">Database URL *</label>
-        <input class="form-input" id="fb-db-url" type="url" placeholder="https://project-name-default-rtdb.firebaseio.com/" required>
+        <input class="form-input" id="fb-db-url" type="url"
+          placeholder="https://project-name-default-rtdb.firebaseio.com/" required>
       </div>
 
       <div style="display: flex; gap: 12px; margin-top: 24px;">
         <button id="btn-save-settings" type="button" class="btn btn-primary" style="flex: 1;">Save Credentials</button>
         <button id="btn-clear-settings" type="button" class="btn btn-danger">Clear</button>
       </div>
-      <button id="btn-demo-mode" type="button" class="btn btn-secondary" style="width: 100%; margin-top: 12px; border-color: var(--accent-cyan); color: var(--accent-cyan); box-shadow: var(--shadow-neon-cyan);">
+      <button id="btn-demo-mode" type="button" class="btn btn-secondary"
+        style="width: 100%; margin-top: 12px; border-color: var(--accent-cyan); color: var(--accent-cyan); box-shadow: var(--shadow-neon-cyan);">
         ⚡ Activate Free Offline Demo
       </button>
     </form>
@@ -307,12 +324,14 @@
     <div class="setup-guide-card">
       <h3 class="setup-guide-title">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
+          <path
+            d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
         </svg>
         Credentials Note
       </h3>
       <p style="font-size: 11px; color: var(--text-secondary); line-height: 1.5;">
-        Save your active Firebase configuration keys above so this Admin console can listen to live user broadcasts. Make sure the broadcaster devices use the exact same Firebase Project ID!
+        Save your active Firebase configuration keys above so this Admin console can listen to live user broadcasts.
+        Make sure the broadcaster devices use the exact same Firebase Project ID!
       </p>
     </div>
   </div>
@@ -321,10 +340,12 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
   <!-- Project Scripts -->
   <script src="firebase-config.js"></script>
   <script src="admin.js"></script>
 </body>
+
 </html>

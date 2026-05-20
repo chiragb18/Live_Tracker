@@ -100,6 +100,9 @@ const AdminApp = {
       console.log('⚡ HYPERTRACK: Auto-activated local Offline Demo mode in Admin Dashboard.');
     }
 
+    // Toggle demo warning banner based on mode
+    this.updateDemoWarningVisibility();
+
     // 4. Initialize Firebase & Listen for Fleet updates
     try {
       await FirebaseHelper.initialize();
@@ -363,7 +366,13 @@ const AdminApp = {
     const generatedId = `${randAdj}-${randNoun}-${randNum}`;
 
     // Construct url string pointing to mobile client page
-    const trackerUrl = `${window.location.protocol}//${window.location.host}/track.html?id=${generatedId}`;
+    let trackerUrl = `${window.location.protocol}//${window.location.host}/track.html?id=${generatedId}`;
+    
+    // Append Firebase credentials if active (not DEMO_MODE) so client can connect
+    const config = FirebaseHelper.getConfig();
+    if (config && config.apiKey !== 'DEMO_MODE') {
+      trackerUrl += `&fbProject=${encodeURIComponent(config.projectId)}&fbKey=${encodeURIComponent(config.apiKey)}&fbDb=${encodeURIComponent(config.databaseURL)}`;
+    }
     
     document.getElementById('generated-link').value = trackerUrl;
     document.getElementById('link-box-wrapper').style.display = 'flex';
@@ -407,6 +416,18 @@ const AdminApp = {
     this.settingsDrawer.classList.remove('open');
   },
 
+  updateDemoWarningVisibility() {
+    const banner = document.getElementById('demo-warning-banner');
+    if (banner) {
+      const config = FirebaseHelper.getConfig();
+      if (config && config.apiKey === 'DEMO_MODE') {
+        banner.style.display = 'block';
+      } else {
+        banner.style.display = 'none';
+      }
+    }
+  },
+
   async saveFirebaseCredentials() {
     const projectId = document.getElementById('fb-project-id').value.trim();
     const apiKey = document.getElementById('fb-api-key').value.trim();
@@ -423,6 +444,7 @@ const AdminApp = {
     if (saved) {
       Toast.show('Credentials stored locally.', 'success');
       this.closeSettingsDrawer();
+      this.updateDemoWarningVisibility();
       
       // Reload Firebase instance
       FirebaseHelper.isInitialized = false;
@@ -454,6 +476,7 @@ const AdminApp = {
     document.getElementById('fb-api-key').value = '';
     document.getElementById('fb-db-url').value = '';
     
+    this.updateDemoWarningVisibility();
     FirebaseHelper.isInitialized = false;
     this.startListeningToFleet();
   },
@@ -471,6 +494,7 @@ const AdminApp = {
     if (saved) {
       Toast.show('⚡ Offline Demo Mode Activated!', 'success');
       this.closeSettingsDrawer();
+      this.updateDemoWarningVisibility();
       
       FirebaseHelper.isInitialized = false;
       try {

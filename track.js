@@ -87,8 +87,21 @@ const TrackClient = {
     // 3. Bind Actions
     this.btnDisconnect.addEventListener('click', () => this.toggleSharing());
 
-    // 4. Auto-Configure Firebase offline fallback if unconfigured
-    if (!FirebaseHelper.isConfigured()) {
+    // 4. Check for Firebase credentials in URL parameters to sync across different devices
+    const fbProject = urlParams.get('fbProject');
+    const fbKey = urlParams.get('fbKey');
+    const fbDb = urlParams.get('fbDb');
+
+    if (fbProject && fbKey && fbDb) {
+      const incomingConfig = {
+        projectId: fbProject.trim(),
+        apiKey: fbKey.trim(),
+        databaseURL: decodeURIComponent(fbDb).trim()
+      };
+      FirebaseHelper.saveConfig(incomingConfig);
+      console.log('⚡ HYPERTRACK: Configured Firebase from tracker URL parameters.');
+    } else if (!FirebaseHelper.isConfigured()) {
+      // Auto-Configure Firebase offline fallback if unconfigured
       const demoConfig = {
         apiKey: 'DEMO_MODE',
         projectId: 'demo-mode',
@@ -97,6 +110,9 @@ const TrackClient = {
       FirebaseHelper.saveConfig(demoConfig);
       console.log('⚡ HYPERTRACK: Auto-activated local Offline Demo mode for zero-setup ease.');
     }
+
+    // Toggle demo warning banner based on mode
+    this.updateDemoWarningVisibility();
 
     // 5. Instantly trigger tracking
     try {
@@ -384,6 +400,18 @@ const TrackClient = {
         Stop Sharing Location
       `;
       this.startBroadcast();
+    }
+  },
+
+  updateDemoWarningVisibility() {
+    const banner = document.getElementById('demo-warning-banner');
+    if (banner) {
+      const config = FirebaseHelper.getConfig();
+      if (config && config.apiKey === 'DEMO_MODE') {
+        banner.style.display = 'block';
+      } else {
+        banner.style.display = 'none';
+      }
     }
   }
 };

@@ -1,0 +1,11 @@
+{
+  "name": "hypertrack",
+  "version": "1.0.0",
+  "description": "HyperTrack Live Location Tracker Dashboard & Broadcaster",
+  "main": "start.js",
+  "scripts": {
+    "start": "node start.js"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
